@@ -2,51 +2,44 @@
 
 namespace App\Entity;
 
-use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ReservationRepository::class)]
+/**
+ * Reservation
+ *
+ * @ORM\Table(name="reservation", indexes={@ORM\Index(name="IDX_42C84955212C041E", columns={"id_event_id"}), @ORM\Index(name="IDX_42C8495579F37AE5", columns={"id_user_id"})})
+ * @ORM\Entity
+ */
 class Reservation
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?user $id_user = null;
+    /**
+     * @var \Evenement
+     *
+     * @ORM\ManyToOne(targetEntity="Evenement")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_event_id", referencedColumnName="id")
+     * })
+     */
+    private $idEvent;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?evenement $id_event = null;
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user_id", referencedColumnName="id_user")
+     * })
+     */
+    private $idUser;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
-    public function getIdUser(): ?user
-    {
-        return $this->id_user;
-    }
-
-    public function setIdUser(?user $id_user): self
-    {
-        $this->id_user = $id_user;
-
-        return $this;
-    }
-
-    public function getIdEvent(): ?evenement
-    {
-        return $this->id_event;
-    }
-
-    public function setIdEvent(?evenement $id_event): self
-    {
-        $this->id_event = $id_event;
-
-        return $this;
-    }
 }

@@ -2,80 +2,55 @@
 
 namespace App\Entity;
 
-use App\Repository\ReponseOffreRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ReponseOffreRepository::class)]
+/**
+ * ReponseOffre
+ *
+ * @ORM\Table(name="reponse_offre", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_406FFD0C2563DECF", columns={"id_demande_id"})})
+ * @ORM\Entity
+ */
 class ReponseOffre
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $mail_demandeur = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mail_demandeur", type="string", length=255, nullable=false)
+     */
+    private $mailDemandeur;
 
-    #[ORM\Column(length: 255)]
-    private ?string $mail_freelance = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mail_freelance", type="string", length=255, nullable=false)
+     */
+    private $mailFreelance;
 
-    #[ORM\Column(length: 255)]
-    private ?string $reponse_details = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reponse_details", type="string", length=255, nullable=false)
+     */
+    private $reponseDetails;
 
-    #[ORM\OneToOne(inversedBy: 'reponseOffre', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?demande $id_demande = null;
+    /**
+     * @var \Demande
+     *
+     * @ORM\ManyToOne(targetEntity="Demande")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_demande_id", referencedColumnName="id")
+     * })
+     */
+    private $idDemande;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
-    public function getMailDemandeur(): ?string
-    {
-        return $this->mail_demandeur;
-    }
-
-    public function setMailDemandeur(string $mail_demandeur): self
-    {
-        $this->mail_demandeur = $mail_demandeur;
-
-        return $this;
-    }
-
-    public function getMailFreelance(): ?string
-    {
-        return $this->mail_freelance;
-    }
-
-    public function setMailFreelance(string $mail_freelance): self
-    {
-        $this->mail_freelance = $mail_freelance;
-
-        return $this;
-    }
-
-    public function getReponseDetails(): ?string
-    {
-        return $this->reponse_details;
-    }
-
-    public function setReponseDetails(string $reponse_details): self
-    {
-        $this->reponse_details = $reponse_details;
-
-        return $this;
-    }
-
-    public function getIdDemande(): ?demande
-    {
-        return $this->id_demande;
-    }
-
-    public function setIdDemande(demande $id_demande): self
-    {
-        $this->id_demande = $id_demande;
-
-        return $this;
-    }
 }

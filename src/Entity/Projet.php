@@ -2,46 +2,66 @@
 
 namespace App\Entity;
 
-use App\Repository\ProjetRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProjetRepository::class)]
+/**
+ * Projet
+ *
+ * @ORM\Table(name="projet", indexes={@ORM\Index(name="fk_usr", columns={"id_user"})})
+ * @ORM\Entity
+ */
 class Projet
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id_projet", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idProjet;
 
-    #[ORM\Column(length: 255)]
-    private ?string $titre = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titre", type="string", length=255, nullable=false)
+     */
+    private $titre;
 
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     */
+    private $description;
 
-    #[ORM\Column]
-    private ?float $prix = null;
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $prix;
 
-    #[ORM\Column(length: 255)]
-    private ?string $compétence = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="competence", type="string", length=255, nullable=false)
+     */
+    private $competence;
 
-    #[ORM\ManyToOne(inversedBy: 'projets')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?user $id_user = null;
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
+     * })
+     */
+    private $idUser;
 
-    #[ORM\OneToMany(mappedBy: 'id_projet', targetEntity: Offre::class)]
-    private Collection $offres;
-
-    public function __construct()
+    public function getIdProjet(): ?int
     {
-        $this->offres = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
+        return $this->idProjet;
     }
 
     public function getTitre(): ?string
@@ -80,57 +100,31 @@ class Projet
         return $this;
     }
 
-    public function getCompétence(): ?string
+    public function getCompetence(): ?string
     {
-        return $this->compétence;
+        return $this->competence;
     }
 
-    public function setCompétence(string $compétence): self
+    public function setCompetence(string $competence): self
     {
-        $this->compétence = $compétence;
+        $this->competence = $competence;
 
         return $this;
     }
 
-    public function getIdUser(): ?user
+    public function getIdUser(): ?User
     {
-        return $this->id_user;
+        return $this->idUser;
     }
 
-    public function setIdUser(?user $id_user): self
+    public function setIdUser(?User $idUser): self
     {
-        $this->id_user = $id_user;
+        $this->idUser = $idUser;
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Offre>
-     */
-    public function getOffres(): Collection
-    {
-        return $this->offres;
+    public function __toString() {
+        return $this->getIdProjet();
     }
 
-    public function addOffre(Offre $offre): self
-    {
-        if (!$this->offres->contains($offre)) {
-            $this->offres->add($offre);
-            $offre->setIdProjet($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOffre(Offre $offre): self
-    {
-        if ($this->offres->removeElement($offre)) {
-            // set the owning side to null (unless already changed)
-            if ($offre->getIdProjet() === $this) {
-                $offre->setIdProjet(null);
-            }
-        }
-
-        return $this;
-    }
 }

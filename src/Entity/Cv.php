@@ -2,80 +2,55 @@
 
 namespace App\Entity;
 
-use App\Repository\CvRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CvRepository::class)]
+/**
+ * Cv
+ *
+ * @ORM\Table(name="cv", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_B66FFE9279F37AE5", columns={"id_user_id"})})
+ * @ORM\Entity
+ */
 class Cv
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $competances = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="competances", type="string", length=255, nullable=false)
+     */
+    private $competances;
 
-    #[ORM\Column(length: 255)]
-    private ?string $experience = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="experience", type="string", length=255, nullable=false)
+     */
+    private $experience;
 
-    #[ORM\Column(length: 255)]
-    private ?string $education = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="education", type="string", length=255, nullable=false)
+     */
+    private $education;
 
-    #[ORM\OneToOne(inversedBy: 'cv', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $id_user = null;
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user_id", referencedColumnName="id_user")
+     * })
+     */
+    private $idUser;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
-    public function getCompetances(): ?string
-    {
-        return $this->competances;
-    }
-
-    public function setCompetances(string $competances): self
-    {
-        $this->competances = $competances;
-
-        return $this;
-    }
-
-    public function getExperience(): ?string
-    {
-        return $this->experience;
-    }
-
-    public function setExperience(string $experience): self
-    {
-        $this->experience = $experience;
-
-        return $this;
-    }
-
-    public function getEducation(): ?string
-    {
-        return $this->education;
-    }
-
-    public function setEducation(string $education): self
-    {
-        $this->education = $education;
-
-        return $this;
-    }
-
-    public function getIdUser(): ?User
-    {
-        return $this->id_user;
-    }
-    
-    public function setIdUser(User $id_user): self
-    {
-        $this->id_user = $id_user;
-
-        return $this;
-    }
 }

@@ -2,180 +2,76 @@
 
 namespace App\Entity;
 
-use App\Repository\CoursRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
-
-#[ORM\Entity(repositoryClass: CoursRepository::class)]
+/**
+ * Cours
+ *
+ * @ORM\Table(name="cours", indexes={@ORM\Index(name="IDX_FDCA8C9C79F37AE5", columns={"id_user_id"})})
+ * @ORM\Entity
+ */
 class Cours
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $contenu = null;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contenu", type="string", length=255, nullable=false)
+     */
+    private $contenu;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\Type(type:"alpha")]
-    #[Assert\NotBlank(message:'le chmps ne doit être vide')]
-    #[Assert\Length(
-        min: 2,
-        max: 50,
-        minMessage: 'Your cours name must be at least {{ limit }} characters long',
-        maxMessage: 'Your cours name cannot be longer than {{ limit }} characters',
-    )]
-    private $cours_name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cours_name", type="string", length=255, nullable=false)
+     */
+    private $coursName;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:'le chmps ne doit être vide')]
-    #[Assert\Type(type:"alpha")]
-    #[Assert\Length(
-        min: 2,
-        max: 50,
-        minMessage: 'Your tuteur name must be at least {{ limit }} characters long',
-        maxMessage: 'Your tuteur name cannot be longer than {{ limit }} characters',
-    )]
-    private $nom_tuteur;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_tuteur", type="string", length=255, nullable=false)
+     */
+    private $nomTuteur;
 
-    #[ORM\Column(length: 255, type:'string')]
-    #[Assert\NotBlank(message:'le chmps ne doit être vide')]
-    #[Assert\Length(
-        min: 2,
-        max: 50,
-        minMessage: 'Your description must be at least {{ limit }} characters long',
-        maxMessage: 'Your description cannot be longer than {{ limit }} characters',
-    )]
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     */
     private $description;
 
-    #[ORM\Column( type: 'float')]
-    #[Assert\NotBlank(message:'le chmps ne doit être vide')]
-    #[Assert\Positive(message: 'le prix ne peut être négatif')]
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
+     */
     private $prix;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $occurence = null;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="occurence", type="integer", nullable=false)
+     */
+    private $occurence;
 
-    #[ORM\ManyToOne(inversedBy: 'cours')]
-    private ?User $id_user = null;
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user_id", referencedColumnName="id_user")
+     * })
+     */
+    private $idUser;
 
-    #[ORM\OneToOne(mappedBy: 'id_cours', cascade: ['persist', 'remove'])]
-    private ?TestCours $testCours = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getContenu(): ?string
-    {
-        return $this->contenu;
-    }
-
-    public function setContenu(?string $contenu): self
-    {
-        $this->contenu = $contenu;
-
-        return $this;
-    }
-
-    public function getCoursName(): ?string
-    {
-        return $this->cours_name;
-    }
-
-    public function setCoursName(?string $cours_name): self
-    {
-        $this->cours_name = $cours_name;
-
-        return $this;
-    }
-
-    public function getNomTuteur(): ?string
-    {
-        return $this->nom_tuteur;
-    }
-
-    public function setNomTuteur(?string $nom_tuteur): self
-    {
-        $this->nom_tuteur = $nom_tuteur;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getPrix(): ?string
-    {
-        return $this->prix;
-    }
-
-    public function setPrix(?string $prix): self
-    {
-        $this->prix = $prix;
-
-        return $this;
-    }
-
-    public function getOccurence(): ?float
-    {
-        return $this->occurence;
-    }
-
-    public function setOccurence(?float $occurence): self
-    {
-        $this->occurence = $occurence;
-
-        return $this;
-    }
-
-    public function getIdUser(): ?User
-    {
-        return $this->id_user;
-    }
-
-    public function setIdUser(?User $id_user): self
-    {
-        $this->id_user = $id_user;
-
-        return $this;
-    }
-
-    public function getTestCours(): ?TestCours
-    {
-        return $this->testCours;
-    }
-
-    public function setTestCours(?TestCours $testCours): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($testCours === null && $this->testCours !== null) {
-            $this->testCours->setIdCours(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($testCours !== null && $testCours->getIdCours() !== $this) {
-            $testCours->setIdCours($this);
-        }
-
-        $this->testCours = $testCours;
-
-        return $this;
-
-    }
-    public function __toString(){
-        return $this->getId();
-    }
 }

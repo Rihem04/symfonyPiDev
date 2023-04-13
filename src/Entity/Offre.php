@@ -2,51 +2,75 @@
 
 namespace App\Entity;
 
-use App\Repository\OffreRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: OffreRepository::class)]
+/**
+ * Offre
+ *
+ * @ORM\Table(name="offre", indexes={@ORM\Index(name="fk_proj", columns={"id_projet"}), @ORM\Index(name="fk_usr1", columns={"id_user"})})
+ * @ORM\Entity
+ */
 class Offre
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id_offre", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idOffre;
 
-    #[ORM\ManyToOne(inversedBy: 'offres')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?projet $id_projet = null;
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
+     * })
+     */
+    private $idUser;
 
-    #[ORM\ManyToOne(inversedBy: 'offres')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?user $id_user = null;
+    /**
+     * @var \Projet
+     *
+     * @ORM\ManyToOne(targetEntity="Projet")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_projet", referencedColumnName="id_projet")
+     * })
+     */
+    private $idProjet;
 
-    public function getId(): ?int
+    public function getIdOffre(): ?int
     {
-        return $this->id;
+        return $this->idOffre;
     }
 
-    public function getIdProjet(): ?projet
+    public function getIdUser(): ?User
     {
-        return $this->id_projet;
+        return $this->idUser;
     }
 
-    public function setIdProjet(?projet $id_projet): self
+    public function setIdUser(?User $idUser): self
     {
-        $this->id_projet = $id_projet;
+        $this->idUser = $idUser;
 
         return $this;
     }
 
-    public function getIdUser(): ?user
+    public function getIdProjet(): ?Projet
     {
-        return $this->id_user;
+        return $this->idProjet;
     }
 
-    public function setIdUser(?user $id_user): self
+    public function setIdProjet(?Projet $idProjet): self
     {
-        $this->id_user = $id_user;
+        $this->idProjet = $idProjet;
 
         return $this;
     }
+    public function __toString() {
+        return $this->getIdOffre();
+    }
+
 }

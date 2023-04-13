@@ -1,0 +1,38 @@
+{% extends 'projet.html.twig' %}
+
+{% block title %}Projet{% endblock %}
+
+{% block body %}
+    <h1>Projet</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdProjet</th>
+                <td>{{ projet.idProjet }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ projet.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ projet.description }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ projet.prix }}</td>
+            </tr>
+            <tr>
+                <th>Competence</th>
+                <td>{{ projet.competence }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_projetuser_index') }}">back to list</a>
+
+    
+
+    
+{% endblock %}
