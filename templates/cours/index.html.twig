@@ -1,0 +1,47 @@
+
+{% extends 'base.html.twig' %}
+{% block title %}Cours index{% endblock %}
+{% block body %}
+    <h1>Cours index</h1>
+    <div class="d-flex w-100 justify-content-end px-5">
+      <a href="{{ path('app_cours_new') }}" class="btn btn-success">Create new</a>
+
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Contenu</th>
+                <th>Cours_name</th>
+                <th>Nom_tuteur</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Occurence</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cour in cours %}
+            <tr>
+                <td>{{ cour.id }}</td>
+                <td>{{ cour.contenu }}</td>
+                <td>{{ cour.coursName }}</td>
+                <td>{{ cour.nomTuteur }}</td>
+                <td>{{ cour.description }}</td>
+                <td>{{ cour.prix }}</td>
+                <td>{{ cour.occurence }}</td>
+                <td>
+                <a href="{{ path('app_cours_show', {'id': cour.id}) }}"><i class="fa-solid fa-eye"></i></a>
+                    <a href="{{ path('app_cours_edit', {'id': cour.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

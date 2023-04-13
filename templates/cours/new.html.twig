@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Cours{% endblock %}
+
+{% block body %}
+    <a class="btn btn-primary" href="{{ path('app_cours_index') }}"><i class="fa-solid fa-backward"></i> </a>
+
+    <h1>Create new Cours</h1>
+
+    {{ include('cours/_form.html.twig') }}
+
+{% endblock %}

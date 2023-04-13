@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TestCours index{% endblock %}
+
+{% block body %}
+    <h1>TestCours index</h1>
+    <div class="d-flex w-100 justify-content-end px-5">
+      <a href="{{path('app_test_cours_new')  }}" class="btn btn-success">Create new</a>
+
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Contenu_test</th>
+                <th>Test_name</th>
+                <th>Note</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for test_cour in test_cours %}
+            <tr>
+                <td>{{ test_cour.id }}</td>
+                <td>{{ test_cour.contenuTest }}</td>
+                <td>{{ test_cour.testName }}</td>
+                <td>{{ test_cour.note }}</td>
+                <td>
+                <a href="{{  path('app_test_cours_show', {'id': test_cour.id}) }}"><i class="fa-solid fa-eye"></i></a>
+                    <a href="{{path('app_test_cours_edit', {'id': test_cour.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
