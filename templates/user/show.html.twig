@@ -1,0 +1,44 @@
+{% extends 'baseuser.html.twig' %}
+ {% block body %}
+
+<br>
+<br>
+<br>
+<br>
+
+    <table class="table" borde=2>
+        <tbody>
+            
+            <tr>
+                <th>Nom</th>
+                <td>{{ user.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ user.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>{{ user.mail }}</td>
+            </tr>
+            
+            <tr>
+                <th>Numero_telephone</th>
+                <td>{{ user.numeroTelephone }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ user.role }}</td>
+            </tr>
+            <tr>
+                <th>Addresse</th>
+                <td>{{ user.addresse }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ user.image }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}
