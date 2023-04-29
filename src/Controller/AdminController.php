@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[Route('/admin')]
 class AdminController extends AbstractController
@@ -22,6 +23,10 @@ class AdminController extends AbstractController
             'controller_name' => 'AdminController',
         ]);
     }
+
+
+
+
 
     #[Route('/back', name: 'back_admin')]
     public function back(): Response
@@ -95,6 +100,81 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('app_admin_listUsers');
     }
+
+ /**
+ * @Route("/bloquer/{id}", name="bloquer_utilisateur")
+ */
+public function bloquerUtilisateur(User $user)
+{
+    $user->setIsBlocked(true);
+    $this->getDoctrine()->getManager()->flush();
+
+    $this->addFlash('info', 'L\'utilisateur a été bloqué.');
+    
+
+    return $this->redirectToRoute('app_admin_listUsers');
+}
+
+/**
+ * @Route("/debloquer/{id}", name="debloquer_utilisateur")
+ */
+public function debloquerUtilisateur(User $user)
+{
+    $user->setIsBlocked(false);
+    $this->getDoctrine()->getManager()->flush();
+
+    $this->addFlash('info', 'L\'utilisateur a été débloqué.');
+
+    return $this->redirectToRoute('app_admin_listUsers');
+}
+
+/**
+ * @Route("/trierParPrenom", name="sort_users_by_first_name")
+ */
+public function triParPrenom(UserRepository $userRepository)
+{
+    $users = $userRepository->findAllSortedByFirstName();
+
+    return $this->render('admin/listUsers.html.twig', [
+        'users' => $users,
+    ]);
+}
+
+/**
+ * @Route("/trierParPrenom", name="sort_users_by_last_name")
+ */
+public function triParNom(UserRepository $userRepository)
+{
+    $users = $userRepository->findAllSortedByLastName();
+
+    return $this->render('admin/listUsers.html.twig', [
+        'users' => $users,
+    ]);
+}
+
+#[Route('/search', name: 'searchUser')]
+public function search(Request $request , NormalizerInterface $Normalizer , UserRepository $ur): Response
+{
+    $requestString=$request->get('searchValue');
+    $users=$ur->chercheParNom($requestString);
+    $jsonContent=$Normalizer->normalize($users,'json',['groups'=>'users']);
+    $retour=json_encode(($jsonContent));
+
+    return new Response($retour);
+}
+ 
+
+
+
+
+
+
+
+
+
+
+    
+
 
     
 }

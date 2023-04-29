@@ -39,6 +39,46 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    public function chercher($nom, $prenom)
+{
+    $qb = $this->createQueryBuilder('u')
+        ->where('u.nom LIKE :nom')
+        ->andWhere('u.prenom LIKE :prenom')
+        ->setParameter('nom', '%' . $nom . '%')
+        ->setParameter('prenom', '%' . $prenom . '%')
+        ->getQuery();
+
+    return $qb->getResult();
+}
+  
+public function findAllSortedByFirstName()
+{
+    $qb = $this->createQueryBuilder('u')
+        ->orderBy('u.prenom', 'ASC');
+
+    return $qb->getQuery()->getResult();
+}
+
+
+public function findAllSortedByLastName()
+{
+    $qb = $this->createQueryBuilder('u')
+        ->orderBy('u.nom', 'ASC');
+
+    return $qb->getQuery()->getResult();
+}
+
+public function chercheParNom($nom ){
+    return $this->createQueryBuilder('user')
+        ->where('u.nom LIKE :nom')
+       
+        ->setParameter('nom', '%' . $nom . '%')
+        
+        ->getQuery();
+
+}
+
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

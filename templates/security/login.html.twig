@@ -1,0 +1,52 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" class="text-center">
+                <br>
+                <br>
+                <br>
+                <br>
+                {% if error %}
+                    <div class="alert alert-danger">Email ou mot de passe invalide</div>
+                {% endif %}
+
+               
+
+                <h1 class="h3 mb-3 font-weight-normal">connexion</h1>
+                <br>
+                <label for="inputMail">Mail</label>
+                <br>
+                <br>
+                <input type="text" value="{{ last_username }}" name="mail" id="inputMail" class="form-control" autocomplete="username" required autofocus>
+                <br>
+                <label for="inputPassword">Password</label>
+                <br>
+                <br>
+                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                <br>
+                <br>
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+
+                
+
+                <button class="btn btn-lg btn-primary" type="submit">
+                    Se connecter
+                </button>
+                <br>
+                <br>
+                <a  href={{path('email')}} > vous avez oubliez votre mot de passe ? cliquez ici </a> <br>
+                <a  href={{path('app_user_new')}} > vous avez pas un compte ? cliquez ici </a>
+                <br>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -7,10 +7,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Stof\DoctrineExtensionsBundle\Mapping\Annotation as StofORM;
+use Stof\DoctrineExtensionsBundle\Entity\Rating;
+
+
+
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity('mail'  , message:"Cette adresse email est déjà utilisée")]
 #[ORM\Table(name: '`user`')]
-class User
+
+class User implements UserInterface 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -47,16 +58,28 @@ class User
     #[ORM\Column]
     #[Assert\NotBlank(message: "Le champ numéro de téléphone ne peut pas être vide")]
     #[Assert\Regex(
-        pattern: '/^[0-9]{7}$/',
+        pattern: '/^[0-9]{8}$/',
         message: "Le numéro de téléphone doit contenir 7 chiffres"
     )]
     private $numero_telephone;
+    
 
+    #[ORM\Column(length: 255, nullable: true)]
+     private ?string $reset_token = null;
+
+
+     
+
+    #[ORM\Column(type: 'boolean', options:['default' => false])]
+    private $isBlocked = false;
+
+   
     
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le champ rôle ne peut pas être vide")]
-    private $role;
+    private $role= "simple user";
+   
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le champ adresse ne peut pas être vide")]
@@ -67,6 +90,8 @@ class User
 
     #[ORM\OneToOne(mappedBy: 'id_user', cascade: ['persist', 'remove'])]
     private ?Cv $cv = null;
+
+    
 
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Evenement::class)]
     private Collection $evenements;
@@ -94,7 +119,36 @@ class User
         $this->demandes = new ArrayCollection();
         $this->cours = new ArrayCollection();
         $this->offres = new ArrayCollection();
+        
     }
+
+
+    public function getIsBlocked(): bool
+    {
+        return $this->isBlocked;
+    }
+
+    public function setIsBlocked(bool $isBlocked): self
+    {
+        $this->isBlocked = $isBlocked;
+
+        return $this;
+    }
+    
+
+    public function getResetToken(): ?string
+    {
+        return $this->reset_token;
+    }
+
+    public function setResetToken(?string $reset_token): self
+    {
+        $this->reset_token = $reset_token;
+
+        return $this;
+    }
+
+  
 
     public function getId(): ?int
     {
@@ -397,6 +451,28 @@ class User
 
         return $this;
     }
+
+   public function eraseCredentials()
+   {
+    
+   }
+    public function getSalt()
+    {
+        
+    }
+
+    public function getRoles()
+    {
+        return array($this->getRole());
+    }
+
+    public function getUsername(): string
+    {
+        return (string) $this->mail;
+    }
+
+    public function getUserIdentifier (){return (string) $this->mail;}
+
 
     
 }

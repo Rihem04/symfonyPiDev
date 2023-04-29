@@ -1,41 +1,44 @@
-
 {% extends 'baseuser.html.twig' %}
 
 {% block title %}New User{% endblock %}
 
-
 {% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div>
+                <br>
+                <br>
+                <br>
+				<br>
+                <br>
+                <br>
+            </div>
+            <div>
+                {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
 
-<div>
-<br>
-<br>
-<br>
+                {{ form_row(form.nom,{'attr':{'placeholder':'écrivez votre nom'}}) }}
+                {{ form_row(form.prenom,{'attr':{'placeholder':'écrivez votre prénom'}}) }}
 
+                {{ form_row(form.mail,{'label':'adresse email ','attr':{'placeholder':'écrivez votre mail'}}) }}
+                {{ form_row(form.password,{'attr':{'placeholder':'écrivez votre mot de passe'}}) }}
+                {{ form_row(form.numero_telephone,{'attr':{'placeholder':'écrivez votre numéro de téléphone'}}) }}
+                {#{{ form_row(form.role,{'attr':{'placeholder':'quel est votre role'}}) }}#}
+                {{ form_row(form.addresse,{'attr':{'placeholder':'écrivez votre adresse'}}) }}
+                {{ form_row(form.image,{'attr':{'placeholder':'inserer votre image'}}) }}
+
+                <br>
+                {#{{ form_row(form.cv,{'attr':{'placeholder':'inserer votre cv'}}) }}#}
+                <br>
+                <div class="text-center"> <!-- Ajouter cette div avec la classe "text-center" pour centrer le bouton -->
+                    <button type="submit" class="btn btn-primary">Inscrire</button> 
+                </div>
+				
+                {{ form_end(form) }}
+            </div>
+			<br>
+			<br>
+        </div>
+    </div>
 </div>
-   
-    
-     <div >
-
-
-								
-								{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
-
-		
-								{{ form_row(form.nom,{'attr':{'placeholder':'écrivez votre nom'}}) }}
-								{{ form_row(form.prenom,{'attr':{'placeholder':'écrivez votre prénom'}}) }}
-
-								{{ form_row(form.mail,{'label':'adresse email ','attr':{'placeholder':'écriver votre mail'}}) }}
-								{{ form_row(form.password,{'attr':{'placeholder':'écrivez votre mot de passe'}}) }}
-								{{ form_row(form.numero_telephone,{'attr':{'placeholder':'écrivez votre numéro de téléphone'}}) }}
-								{{ form_row(form.role,{'attr':{'placeholder':'quel est votre role'}}) }}
-								{{ form_row(form.addresse,{'attr':{'placeholder':'écrivez votre adresse'}}) }}
-                                {{ form_row(form.image,{'attr':{'placeholder':'inserer votre image'}}) }}
-                                <br>
-                                {{ form_row(form.cv,{'attr':{'placeholder':'inserer votre cv'}}) }}
-                                <br>
-								<button type="submit"  class="btn btn-warning btn-block">Inscrire</button>
-								{{ form_end(form) }}
-							</div>
-
-    
 {% endblock %}

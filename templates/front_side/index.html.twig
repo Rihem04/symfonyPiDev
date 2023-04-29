@@ -1,0 +1,69 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block body %}
+ <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">Freelanci, votre plateforme freelance en Tunisie</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">Freelanci est un  site freelance a l’avantage d’être spécialisé sur des missions pour freelances, indépendants en mettant en relation des clients avec des freelances</h2>
+          <div data-aos="fade-up" data-aos-delay="600">
+            <div class="text-center text-lg-start">
+              <a href="#about" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                <span>Get Started</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+          <img src="{{ asset('frontOffice/img/hero-img.png" class="img-fluid') }} " alt="">
+        </div> 
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+
+      <div class="container" data-aos="fade-up">
+        <div class="row gx-0">
+
+          <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="content">
+              
+              <h2>Trouver un freelance tunisien compétent sur notre plateforme</h2>
+              <p>
+                Freelances.tn vous aide à trouver le freelance en Tunisie parfait pour votre projet, ou l’entreprise parfaite pour votre projet. Afin de trouver le freelance qu’il vous faut, vous avez juste a cliquer sur le bouton ci-dessous.
+              </p>
+              <div class="text-center text-lg-start">
+                <a href="#" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+                  <span>publier un projet gratuitement</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+            <img src="{{ asset('frontOffice/img/about.jpg') }}" class="img-fluid" alt="">
+          </div>
+
+        </div>
+      </div>
+
+    </section><!-- End About Section -->
+
+   
+
+
+       
+
+
+          
+{% endblock %}
+

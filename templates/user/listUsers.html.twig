@@ -1,59 +1,121 @@
-
 {% extends 'baseuser.html.twig' %}
+
 {% block body %}
-
-<div>
 <br>
 <br>
-<br>
+<section id="team" class="team">
+    <div class="container" data-aos="fade-up">
+        <header class="section-header">
+            <p>liste des utilisateurs</p>
+        </header>
+        <div class="row gy-4">
+            <div class="col-12">
+                <!-- Formulaire de recherche -->
+                <form id="form-recherche">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label for="nom">Nom :</label>
+                            <input type="text" id="nom" name="nom" class="form-control">
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="prenom">Prénom :</label>
+                            <input type="text" id="prenom" name="prenom" class="form-control">
+                        </div>
+                        <div class="col-lg-4">
+                            <button type="submit" class="btn btn-primary">Rechercher</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% for user in users %}
+            <!-- Afficher les résultats de recherche -->
+            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                <div class="member">
+                    <div class="member-img">
+                        <img src="{{ asset('images/users/' ~ user.image) }}" class="img-fluid" alt="">
+                        <div class="social">
+                            <a href=""><i class="bi bi-twitter"></i></a>
+                            <a href=""><i class="bi bi-facebook"></i></a>
+                            <a href=""><i class="bi bi-instagram"></i></a>
+                            <a href=""><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4>{{ user.nom ~ " " ~ user.prenom }}</h4>
+                        <span>{{ user.mail }}</span>
+                        <p>{{ user.addresse }}</p>
+                        <p>{{ user.numeroTelephone }}</p>
+                        <li><a class="getstarted scrollto" href="{{ path('app_user_show', {'id': user.id}) }}">voir profil</a></li>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 
-</div>
+<!-- Script jQuery pour gérer la recherche -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {   //$(document).ready() garantit que le code ne sera exécuté que lorsque le DOM de la page web sera entièrement chargé
+    $('#form-recherche').submit(function(e) {  //$('#form-recherche') pour cibler un formulaire avec l'ID form-recherche
+        e.preventDefault();    //e.preventDefault() est appelé pour empêcher la soumission du formulaire de recharger la page.
 
-    <h1>liste des utilisateurs</h1>
+        var nom = $('#nom').val();         /*Les valeurs des champs de formulaire avec les ID nom et prenom sont récupérées à 
+                                             l'aide de la méthode val() de jQuery et stockées dans les variables nom et prenom*/
+        var prenom = $('#prenom').val();
 
-    <table class="table" border=2>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Mail</th>
-                <th>Password</th>
-                <th>Numero_telephone</th>
-                <th>Role</th>
-                <th>Addresse</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.nom }}</td>
-                <td>{{ user.prenom }}</td>
-                <td>{{ user.mail }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.numeroTelephone }}</td>
-                <td>{{ user.role }}</td>
-                <td>{{ user.addresse }}</td>
-                <td>{{ user.image }}</td>
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        // Envoyer une requête AJAX pour rechercher les utilisateurs
+        $.ajax({
+            url: '{{ path('rechercher_users') }}',
+            type: 'GET',
+            data: {
+                nom: nom,
+                prenom: prenom
+            },
+            success: function(data) {      //Si la requête est réussie, la fonction success est appelée avec les données renvoyées par le serveur dans le paramètre data. La fonction 
+                // Vider la liste des résultats
+                $('.row.gy-4').empty();
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
+                // Ajouter les résultats à la liste
+                data.forEach(function(user) {
+                    var html = '<div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">';
+                    html += '<div class="member">';
+html += '<div class="member-img">';
+html += '<img src="' + user.image + '" class="img-fluid" alt="">';
+html += '<div class="social">';
+html += '<a href=""><i class="bi bi-twitter"></i></a>';
+html += '<a href=""><i class="bi bi-facebook"></i></a>';
+html += '<a href=""><i class="bi bi-instagram"></i></a>';
+html += '<a href=""><i class="bi bi-linkedin"></i></a>';
+html += '</div>';
+html += '</div>';
+html += '<div class="member-info">';
+html += '<h4>' + user.nom + ' ' + user.prenom + '</h4>';
+html += '<span>' + user.mail + '</span>';
+html += '<p>' + user.addresse + '</p>';
+html += '<p>' + user.numeroTelephone + '</p>';
+html += '<li><a class="getstarted scrollto" href="' + user.url + '">voir profil</a></li>';
+html += '</div>';
+html += '</div>';
 
+$('.row.gy-4').append(html);
+            });
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+});
+});
+</script>
 
 {% endblock %}
+
+
+
+
+
+
 
 

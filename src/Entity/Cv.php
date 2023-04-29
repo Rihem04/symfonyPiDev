@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CvRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CvRepository::class)]
 class Cv
@@ -14,16 +15,22 @@ class Cv
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le champ compétences ne peut pas être vide")]
+    #[Assert\Type(type:"alpha" , message: "Le champ compétences doit etre une chaine de caractere")]
     private ?string $competances = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le champ expériences ne peut pas être vide")]
+    #[Assert\Type(type:"alpha" , message: "Le champ expériences doit etre une chaine de caractere")]
     private ?string $experience = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le champ éducation ne peut pas être vide")]
+    #[Assert\Type(type:"alpha" , message: "Le champ éducation doit etre une chaine de caractere")]
     private ?string $education = null;
 
     #[ORM\OneToOne(inversedBy: 'cv', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $id_user = null;
 
     public function getId(): ?int

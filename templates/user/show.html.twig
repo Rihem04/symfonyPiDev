@@ -8,7 +8,11 @@
 
     <table class="table" borde=2>
         <tbody>
-            
+            <tr>
+                
+                <td><img src="{{ asset('images/users/' ~ user.image) }}"  width="150" height="150" class="img-fluid" alt=""></td>
+                 
+            </tr>
             <tr>
                 <th>Nom</th>
                 <td>{{ user.nom }}</td>
@@ -20,24 +24,19 @@
             <tr>
                 <th>Mail</th>
                 <td>{{ user.mail }}</td>
+                
             </tr>
             
             <tr>
                 <th>Numero_telephone</th>
                 <td>{{ user.numeroTelephone }}</td>
             </tr>
-            <tr>
-                <th>Role</th>
-                <td>{{ user.role }}</td>
-            </tr>
+            
             <tr>
                 <th>Addresse</th>
                 <td>{{ user.addresse }}</td>
             </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ user.image }}</td>
-            </tr>
+            
         </tbody>
     </table>
 

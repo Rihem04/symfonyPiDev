@@ -15,7 +15,7 @@ class CvType extends AbstractType
             ->add('competances')
             ->add('experience')
             ->add('education')
-            ->add('id_user')
+            
         ;
     }
 

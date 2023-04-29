@@ -1,79 +1,122 @@
-
 {% extends 'admin/index.html.twig' %}
 
 {% block admin %}
-	<section class="content">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-12">
 
-					{% for message in app.flashes('info') %}
-						<div class="alert alert-success">
-							{{ message }}
-						</div>
-					{% endfor %}
-					<div class="card">
-						<div class="card-header">
-							<h3 class="card-title">Liste des clients</h3>
-						</div>
-						<!-- /.card-header -->
-						<div class="card-body">
-							<table class="table">
-								<thead>
-									<tr>
+    <section class="content">
+  
+        <div class="container-fluid">
 
-										<th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Mail</th>
-                <th>Password</th>
-                <th>Numero_telephone</th>
-                <th>Role</th>
-                <th>Addresse</th>
-                <th>Image</th>
-                <th>actions</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for user in users %}
-										<tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.nom }}</td>
-                <td>{{ user.prenom }}</td>
-                <td>{{ user.mail }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.numeroTelephone }}</td>
-                <td>{{ user.role }}</td>
-                <td>{{ user.addresse }}</td>
-                <td>{{ user.image }}</td>
+            <div class="row">
+                <div> 
+                    <input type="text" id="search" class="form-control" placeholder="chercher"> 
+                </div>
+                <div class="col-12">
+                    {% for message in app.flashes('info') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Liste des clients</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nom</th>
+                                        <th>Prenom</th>
+                                        <th>Mail</th>
+                                        <th>Numero_telephone</th>
+                                        <th>Role</th>
+                                        <th>Addresse</th>
+                                        <th>Image</th>
+                                        <th>isBlocked</th>
+                                        <th>actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="search-result">
+                                    {% for user in users %}
+                                        <tr>
+                                            <td>{{ user.id }}</td>
+                                            <td>{{ user.nom }}</td>
+                                            <td>{{ user.prenom }}</td>
+                                            <td>{{ user.mail }}</td>
+                                            <td>{{ user.numeroTelephone }}</td>
+                                            <td>{{ user.role }}</td>
+                                            <td>{{ user.addresse }}</td>
+                                            <td><img src="{{ asset('images/users/' ~ user.image) }}"  width="50" height="50" class="img-fluid" alt=""></td>
+                                            <td> 
+                                                {% if user.isBlocked %}
+                                                      Oui  
+                                                {% else %}
+                                                       Non
+                                                {% endif %} 
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('detail_client', {'id': user.id}) }}" class="btn btn-sm btn-info">Détail</a>
+                                                <a onclick="return confirm('êtes-vous sûr de vouloir supprimer')" href="{{ path('supprimer_client', {'id': user.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
+                                                <a href="{{ path('bloquer_utilisateur', {'id': user.id}) }}" class="btn btn-sm btn-info">bloquer</a>    
+                                                <a href="{{ path('debloquer_utilisateur', {'id': user.id}) }}" class="btn btn-sm btn-info">débloquer</a>                                            
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="11">aucun client trouvé</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <a href="{{ path('sort_users_by_first_name') }}" class="btn btn-primary">Trier par prénom</a>
+                            <a href="{{ path('sort_users_by_last_name') }}" class="btn btn-primary">Trier par nom</a>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 
-                <td>
-					<a href="{{ path('detail_client', {'id': user.id}) }}" class="btn btn-sm btn-info">Détail</a>
-                    <a onclick="return confirm('êtes-vous sûr de vouloir supprimer')" href="{{ path('supprimer_client', {'id': user.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
-												
-												
-	            </td>
-                
-            </tr>
-									{% else %}
-										<tr>
-											<td colspan="11">aucun client trouvé</td>
-										</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-						</div>
-						<!-- /.card-body -->
-					</div>
-					<!-- /.card -->
-				</div>
-				<!-- /.col -->
-			</div>
-			<!-- /.row -->
-		</div>
-		<!-- /.container-fluid -->
-	</section>
+ {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#search').keyup(function(){
+        var query = $(this).val();
+        if(query != '')
+        {
+            $.ajax({
+                url: "{{ path('searchUser') }}",
+                method: "POST",
+                data: {query:query},
+                success: function(data){
+                    $('#search-result').html(data);
+                }
+            });
+        } else {
+            // Si la chaîne de recherche est vide, réaffichez tous les utilisateurs
+            $.ajax({
+                url: "{{ path('app_admin_listUsers') }}",
+                method: "GET",
+                success: function(data){
+                    $('#search-result').html(data);
+                }
+            });
+        }
+    });
+});
+
+</script>#}
+
+
 {% endblock %}
+
+
 
 
 

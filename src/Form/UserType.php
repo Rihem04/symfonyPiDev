@@ -11,6 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 
 class UserType extends AbstractType
@@ -58,12 +61,12 @@ class UserType extends AbstractType
                 ]
             ])
             
-            ->add('role', TextType::class,[
+            /*->add('role', TextType::class,[
                 'label' => "role",
                 'attr' => [
                     'class' => 'form-control'
                 ]
-            ])
+            ])*/
             
             
             ->add('addresse', TextType::class,[
@@ -73,14 +76,14 @@ class UserType extends AbstractType
                 ]
             ])
             
-            ->add('image', TextType::class,[
+            ->add('image', FileType::class,[
                 'label' => "image",
-                'attr' => [
-                    'class' => 'form-control'
-                ]
+                'mapped' => false, // Pour que le champ ne soit pas mappé sur l'entité
+                'required' => false, // Rendre le champ optionnel
             ])
             
-            ->add('cv')
+            //->add('cv')
+            
         ;
     }
 
