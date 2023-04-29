@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block title %}New DemandeClient
+{% endblock %}
+{% block head %}{% endblock %}
+{% block body %}
+	<!DOCTYPE html>
+	<html>
+		<style>
+			/* Style for the container div */
+			.container {
+				display: flex; /* Use flexbox for layout */
+			}
+			/* Style for the left div */
+			.left-div {
+				flex: 1; /* Take up 1/2 of the available space */
+				margin-top: 8%;
+				background-color: white; /* Example background color */
+				padding: 10px; /* Example padding */
+			}
+			/* Style for the right div */
+			.right-div {
+				flex: 1;
+				margin-top: 8%; /* Take up 1/2 of the available space */
+				background-color: white; /* Example background color */
+				padding: 10px; /* Example padding */
+			}
+		</style>
+	</html>
+</head>
+<body>
+	<div class="container">
+		<div
+			class="left-div">
+			<!-- Content for the left div -->
+			{{ include('demande_client/_form.html.twig') }}
+		</div>
+		<div class="right-div"><!-- Content for the right div -->
+			{#	{{ include('demande_client/liste_user.html.twig') }}#}
+		</div>
+	</div>
+</body></html>{% endblock %}

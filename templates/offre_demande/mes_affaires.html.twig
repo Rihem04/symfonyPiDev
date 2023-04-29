@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DemandeClient index
+{% endblock %}
+
+{% block body %}
+	<h1>DemandeClient index</h1>
+
+
+	<br><br>
+	<a href="{{ path('app_offre_demande_affaire', {'id':2}) }}">show my demande</a>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Id_client</th>
+				<th>Titre</th>
+				<th>Description</th>
+				<th>Competence</th>
+				<th>Prix</th>
+				<th>Etat</th>
+				<th>DateLimite</th>
+				<th>DateCreation</th>
+				<th>IdFreelance</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for demande_client in demande_clients %}
+				{% if demande_client.etat == "Accepter" %}
+					<tr>
+						<td>{{ demande_client.id }}</td>
+						<td>{{ demande_client.idClient }}</td>
+						<td>{{ demande_client.titre }}</td>
+						<td>{{ demande_client.description }}</td>
+						<td>{{ demande_client.competence }}</td>
+						<td>{{ demande_client.prix }}</td>
+						<td>{{ demande_client.etat }}</td>
+						<td>{{ demande_client.dateLimite ? demande_client.dateLimite|date('Y-m-d') : '' }}</td>
+						<td>{{ demande_client.dateCreation ? demande_client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ demande_client.idFreelance }}</td>
+						<td>
+							<a href="{{ path('app_demande_client_edit', {'id': demande_client.id}) }}">edit</a>
+						</td>
+					</tr>
+				{% endif %}
+			{% else %}
+				<tr>
+					<td colspan="10">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<br>
+	<hr>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Id_client</th>
+				<th>Titre</th>
+				<th>Description</th>
+				<th>Competence</th>
+				<th>Prix</th>
+				<th>Etat</th>
+				<th>DateLimite</th>
+				<th>DateCreation</th>
+				<th>IdFreelance</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for demande_client in demande_clients %}
+				{% if demande_client.etat == "Refuser" %}
+					<tr>
+						<td>{{ demande_client.id }}</td>
+						<td>{{ demande_client.idClient }}</td>
+						<td>{{ demande_client.titre }}</td>
+						<td>{{ demande_client.description }}</td>
+						<td>{{ demande_client.competence }}</td>
+						<td>{{ demande_client.prix }}</td>
+						<td>{{ demande_client.etat }}</td>
+						<td>{{ demande_client.dateLimite ? demande_client.dateLimite|date('Y-m-d') : '' }}</td>
+						<td>{{ demande_client.dateCreation ? demande_client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ demande_client.idFreelance }}</td>
+						<td>
+							<a href="{{ path('app_offre_demande_edit', {'id': demande_client.id}) }}">edit</a>
+
+
+						</td>
+					</tr>
+				{% endif %}
+			{% else %}
+				<tr>
+					<td colspan="10">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<br>
+	<hr>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Id_client</th>
+				<th>Titre</th>
+				<th>Description</th>
+				<th>Competence</th>
+				<th>Prix</th>
+				<th>Etat</th>
+				<th>DateLimite</th>
+				<th>DateCreation</th>
+				<th>IdFreelance</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for demande_client in demande_clients %}
+				{% if demande_client.etat != "Refuser" and demande_client.etat != "Accepter"  %}
+					<tr>
+						<td>{{ demande_client.id }}</td>
+						<td>{{ demande_client.idClient }}</td>
+						<td>{{ demande_client.titre }}</td>
+						<td>{{ demande_client.description }}</td>
+						<td>{{ demande_client.competence }}</td>
+						<td>{{ demande_client.prix }}</td>
+						<td>{{ demande_client.etat }}</td>
+						<td>{{ demande_client.dateLimite ? demande_client.dateLimite|date('Y-m-d') : '' }}</td>
+						<td>{{ demande_client.dateCreation ? demande_client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ demande_client.idFreelance }}</td>
+						<td>
+							<a href="{{ path('app_offre_demande_repondre', {'id': demande_client.id}) }}">repondre</a>
+
+
+						</td>
+					</tr>
+				{% endif %}
+			{% else %}
+				<tr>
+					<td colspan="10">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_demande_client_index') }}">back</a>
+{% endblock %}

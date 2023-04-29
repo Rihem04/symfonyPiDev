@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OffreDemande
+{% endblock %}
+
+{% block body %}
+	<h1>OffreDemande</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ offre_demande.id }}</td>
+			</tr>
+			<tr>
+				<th>ReponseDemande</th>
+				<td>{{ offre_demande.reponseDemande }}</td>
+			</tr>
+			<tr>
+				<th>Id_freelance</th>
+				<td>{{ offre_demande.idFreelance }}</td>
+			</tr>
+			<tr>
+				<th>Id_demande</th>
+				<td>
+					{{ offre_demande.getIdDemande }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_offre_demande_index') }}">back to list</a>
+
+	<a href="{{ path('app_offre_demande_edit', {'id': offre_demande.id}) }}">edit</a>
+
+	{{ include('offre_demande/_delete_form.html.twig') }}
+{% endblock %}

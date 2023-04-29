@@ -1,0 +1,59 @@
+{% block body %}
+	<!DOCTYPE html>
+	<html>
+		<style>
+			.bouton {
+				display: inline-block;
+				padding: 10px 20px;
+				font-size: 16px;
+				font-weight: bold;
+				text-align: center;
+				text-decoration: none;
+				background-color: #007bff;
+				color: #ffffff;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+
+			/* Style du bouton au survol */
+			.bouton:hover {
+				background-color: #0056b3;
+			}
+
+			/* Style du bouton au clic */
+			.bouton:active {
+				background-color: #003c80;
+			}
+			.left-div {
+				flex: 1; /* Take up 1/2 of the available space */
+				margin-top: 20%;
+				background-color: yellow; /* Example background color */
+				padding: 10px; /* Example padding */
+				width: 15%;
+				height: 100%
+			}
+		</style>
+	</html>
+</head>
+<body>
+	<div class="container">
+		<div
+			class="left-div">
+			<!-- Content for the left div -->
+			<a href="{{ path('app_demande_client_home') }} " class="bouton">ajouter une nouveau demande
+			</a>
+
+			<br><hr><br>
+			<a href="{{ path('app_demande_show_all_demandes') }} " class="bouton">show all demande
+			</a>
+			<br><hr><br>
+			<a href="{{ path('app_demande_show_mes_demandes', {'id':1}) }}" class="bouton">show my demande</a>
+			<br><hr><br>
+			<a href="{{ path('app_offre_demande_affaire', {'id':1}) }}" class="bouton">Mes offre d'emplois</a>
+			<br><hr><br>
+			<a href="{{ path('app_offre_demande_index', {'id':1}) }}" class="bouton">Mes Reponse
+			</a>
+
+		</div>
+	</body>
+</body></div></body></html>{% endblock %}
