@@ -1,0 +1,61 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Reclamation index{% endblock %}
+
+{% block body %}
+    <h1>Reclamation index</h1>
+        <form method="post" action="{{ path('reclamation_rechercheB') }}">
+                                <input type="text" name="search" class="btn btn-outline-info">
+                                <input type="submit" value="{% trans %}Recherche{% endtrans %}" class="btn btn-info">
+                </form>
+    <div class="col">
+    <div class="col text-right">
+        <a class="btn btn-info mr-3" href="{{ path('order_By_email')}}">Trier par Email</a>
+        <a class="btn btn-info" href="{{ path('order_By_Description')}}">Trier par Description</a>
+    </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idreclamation</th>
+                <th>Email</th>
+                <th>ReportedEmail</th>
+                <th>Sujet</th>
+                <th>Date</th>
+                <th>Telephone</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.idreclamation }}</td>
+                <td>{{ reclamation.email }}</td>
+                <td>{{ reclamation.reportedEmail }}</td>
+                <td>{{ reclamation.sujet }}</td>
+                <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
+                <td>{{ reclamation.telephone }}</td>
+                <td>{{ reclamation.description }}</td>
+                <td>
+                    <a href="{{ path('app_reclamation_show', {'idreclamation': reclamation.idreclamation}) }}">show</a>
+                    <a href="{{ path('app_reclamation_edit', {'idreclamation': reclamation.idreclamation}) }}">edit</a>
+                    <a href="{{ path('app_reponse_reclamation_new' ,{'idrecla':reclamation.idReclamation} ) }}"style="color:#ed174a;">Reponse</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reclamation_new') }}">Create new</a>
+    <div style="margin-left:1000px;">
+            <a class="btn btn-info" href="{{path('generator_serviceR')}}"> Exporter PDF </a>
+            <a class="btn btn-info" href="{{path('statsR') }}"> statistique </a>
+
+         </div>
+{% endblock %}

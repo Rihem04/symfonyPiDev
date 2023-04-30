@@ -1,0 +1,30 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}ReponseReclamation{% endblock %}
+
+{% block body %}
+    <h1>ReponseReclamation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idreponse</th>
+                <td>{{ reponse_reclamation.idreponse }}</td>
+            </tr>
+            <tr>
+                <th>Traitement</th>
+                <td>{{ reponse_reclamation.traitement }}</td>
+            </tr>
+            <tr>
+                <th>ContenueReponse</th>
+                <td>{{ reponse_reclamation.contenueReponse }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reponse_reclamation_index') }}">back to list</a>
+
+    <a href="{{ path('app_reponse_reclamation_edit', {'idreponse': reponse_reclamation.idreponse}) }}">edit</a>
+
+    {{ include('reponse_reclamation/_delete_form.html.twig') }}
+{% endblock %}

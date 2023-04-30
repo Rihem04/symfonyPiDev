@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>List of Reclamations</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #ffffff;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #ffffff;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <h1 style="text-align: center;">List of Reclamations</h1>
+    <div style="text-align: center;">
+        <img src="backOffice/img/logo.png" alt="Logo">
+    </div>
+    <table border="2">
+        <thead>
+            <tr>
+                <th style="color:#009CFF;">ID</th>
+                <th style="color:#009CFF;">Email</th>
+                <th style="color:#009CFF;">Reported Email</th>
+                <th style="color:#009CFF;">Sujet</th>
+                <th style="color:#009CFF;">Telephone</th>
+                <th style="color:#009CFF;">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.idreclamation}}</td>
+                <td>{{ reclamation.email }}</td>
+                <td>{{ reclamation.reportedEmail }}</td>
+                <td>{{ reclamation.sujet }}</td>
+                <td>{{ reclamation.telephone }}</td>
+                <td>{{ reclamation.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

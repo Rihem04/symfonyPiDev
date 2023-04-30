@@ -1,0 +1,37 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}ReponseReclamation index{% endblock %}
+
+{% block body %}
+    <h1>ReponseReclamation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idreponse</th>
+                <th>Traitement</th>
+                <th>ContenueReponse</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reponse_reclamation in reponse_reclamations %}
+            <tr>
+                <td>{{ reponse_reclamation.idreponse }}</td>
+                <td>{{ reponse_reclamation.traitement }}</td>
+                <td>{{ reponse_reclamation.contenueReponse }}</td>
+                <td>
+                    <a href="{{ path('app_reponse_reclamation_show', {'idreponse': reponse_reclamation.idreponse}) }}">show</a>
+                    <a href="{{ path('app_reponse_reclamation_edit', {'idreponse': reponse_reclamation.idreponse}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reponse_reclamation_neww') }}">Create new</a>
+{% endblock %}

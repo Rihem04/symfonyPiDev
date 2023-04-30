@@ -1,0 +1,25 @@
+
+{% extends 'reclamation.html.twig' %}
+
+{% block body %}
+    <h1>{{ reponse_reclamation.reclamation.sujet }}</h1>
+
+    <h2>Réponse de l'administrateur :</h2>
+    {% if reponse_reclamation.contenueReponse %}
+        <p>{{ reponse_reclamation.contenueReponse }}</p>
+    {% else %}
+        <p>Aucune réponse pour le moment.</p>
+    {% endif %}
+
+    <h2>Messages :</h2>
+    <div id="messages"></div>
+
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="Écrivez votre message">
+        <button type="submit">Envoyer</button>
+    </form>
+
+    <script src="{{ asset('js/mercure.js') }}"></script>
+    <script>
+        const url = new URL('{{ path('mercure_hubs') }}');
+        url.searchParams.append('topic', '/reponse-reclamation/{{ reponse_reclamation.id

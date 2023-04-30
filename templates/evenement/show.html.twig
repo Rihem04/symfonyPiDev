@@ -1,0 +1,42 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Evenement{% endblock %}
+
+{% block body %}
+    <h1>Evenement</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idevenement</th>
+                <td>{{ evenement.idevenement }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ asset('uploads/' ~evenement.image) }}" style=" width:60px; height:50px; " alt=""/></td>
+            </tr>
+            <tr>
+                <th>LieuEvent</th>
+                <td>{{ evenement.lieuEvent }}</td>
+            </tr>
+            <tr>
+                <th>DateEvent</th>
+                <td>{{ evenement.dateEvent ? evenement.dateEvent|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Rate</th>
+                <td>{{ evenement.rate }}</td>
+            </tr>
+            <tr>
+                <th>DescriptionEvent</th>
+                <td>{{ evenement.descriptionEvent }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_evenement_index') }}">back to list</a>
+
+    <a href="{{ path('app_evenement_edit', {'idevenement': evenement.idevenement}) }}">edit</a>
+
+    {{ include('evenement/_delete_form.html.twig') }}
+{% endblock %}

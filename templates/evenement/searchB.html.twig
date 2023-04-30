@@ -1,0 +1,46 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Evenement index{% endblock %}
+
+{% block body %}
+    <h1>Evenement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idevenement</th>
+                <th>Image</th>
+                <th>LieuEvent</th>
+                <th>DateEvent</th>
+                <th>Rate</th>
+                <th>DescriptionEvent</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.idevenement }}</td>
+                <td><img src="{{ asset('uploads/' ~evenement.image) }}" style=" width:60px; height:50px; " alt=""/></td>
+                <td>{{ evenement.lieuEvent }}</td>
+                <td>{{ evenement.dateEvent ? evenement.dateEvent|date('Y-m-d') : '' }}</td>
+                <td>{{ evenement.rate }}</td>
+                <td>{{ evenement.descriptionEvent }}</td>
+                <td>
+                    <a href="{{ path('app_evenement_show', {'idevenement': evenement.idevenement}) }}">show</a>
+                    <a href="{{ path('app_evenement_edit', {'idevenement': evenement.idevenement}) }}">edit</a>
+                    <a <a href="{{ path('app_reservation_newB' ,{'idevent':evenement.idEvenement}) }}"style="color:#ed174a;">Réserver</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <a href="{{ path('app_evenement_index') }}">Back To List</a>
+
+
+{% endblock %}

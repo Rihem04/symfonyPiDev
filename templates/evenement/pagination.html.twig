@@ -1,0 +1,17 @@
+<div class="pagination">
+    {% if pagination.hasPreviousPage %}
+        <a href="#" data-page-number="{{ pagination.previousPageNumber }}">« Previous</a>
+    {% endif %}
+
+    {% for page in pagination.pages %}
+        {% if pagination.currentPageNumber == page %}
+            <span class="current">{{ page }}</span>
+        {% else %}
+            <a href="#" data-page-number="{{ page }}">{{ page }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if pagination.hasNextPage %}
+        <a href="#" data-page-number="{{ pagination.nextPageNumber }}">Next »</a>
+    {% endif %}
+</div>

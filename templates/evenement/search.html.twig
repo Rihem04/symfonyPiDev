@@ -1,0 +1,35 @@
+{% extends 'reclamation.html.twig' %}
+{% block title %}Liste Evenement{% endblock %}
+
+{% block body %}
+ <!-- Service Start -->
+    <div class="service">
+  <div class="container">
+    <div class="section-header text-center">
+      <h1 style="margin-bottom:40px;margin-top:-170px; color:#0000FF;">Liste des Événements</h1>
+      <div class="sharethis-inline-share-buttons"></div>
+    </div>
+    <div class="row">
+      {% for evenement in evenements %}
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="service-item">
+          <img src="{{ asset('uploads/' ~evenement.image)}}" style=" width:360px; height:250px; " alt="">
+          <p><strong style="color:#0000FF;">Lieu:</strong> {{ evenement.lieuEvent }}</p> 
+          <a <a href="{{ path('app_evenement_map' ,{'idevenement':evenement.idEvenement}) }}"style="color:#ed174a;">Voir Map</a>
+          <p><strong style="color:#0000FF;">Date de événement:</strong> {{ evenement.dateEvent ? evenement.dateEvent|date('Y-m-d') : '' }}</p>
+          <p><strong style="color:#0000FF;">Type:</strong> {{ evenement.descriptionEvent}}</p>
+         <center> <a href="{{ path('app_reservation_new_front' ,{'idevent':evenement.idEvenement}) }}" class="btn btn-primary" style="background-color: #0000FF">Participer</a></center>
+         <br>
+        </div>
+      </div>
+      {% else %}
+      <div class="col">
+        <p class="text-center">Aucun événement trouvé.</p>
+      </div>
+      {% endfor %}
+     <center> <a href="{{ path('app_evenement_index_front') }}" class="btn btn-primary">back to list</a></center>
+    </div>
+  </div>
+</div>
+    <!-- Service End -->
+{% endblock %}

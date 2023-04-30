@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>List of Evenements</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #ffffff;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            
+        }
+        th {
+            background-color: #ffffff;
+        }
+       img {
+            max-width: 100px;
+            height: auto;
+        }
+        
+    </style>
+</head>
+<body>
+ 
+<br>
+    <h1 style="text-align: center;">List of Evenements</h1>
+    <div style="text-align: center;">
+        <img src="backOffice/img/logo.png" alt="Logo">
+    </div>
+    <table b
+    <table border="2">
+        <thead>
+            <tr>
+                <th style="color:#009CFF;">ID</th>
+                <th style="color:#009CFF;">Image</th>
+                <th style="color:#009CFF;">Lieu</th>
+                <th style="color:#009CFF;">Description</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.idevenement}}</td>
+                 <td><img src="{{ asset('uploads/' ~evenement.image) }}" style=" width:89px; height:75px; " alt=""/></td>
+                <td>{{ evenement.lieuEvent }}</td>
+                <td>{{ evenement.descriptionEvent }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>

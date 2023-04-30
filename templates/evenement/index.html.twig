@@ -1,0 +1,60 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Evenement index{% endblock %}
+
+{% block body %}
+    <h1>Evenement index</h1>
+                <form method="post" action="{{ path('evenement_rechercheB') }}">
+                                <input type="text" name="search" class="btn btn-outline-info">
+                                <input type="submit" value="{% trans %}Recherche{% endtrans %}" class="btn btn-info">
+                </form>
+                <div style="margin-law:20px;">
+        <div class="row">
+    <div class="col">
+    <div class="col text-right">
+        <a class="btn btn-info mr-3" href="{{ path('order_By_Date')}}">Trier par date</a>
+        <a class="btn btn-info" href="{{ path('order_By_Lieu')}}">Trier par lieu</a>
+    </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idevenement</th>
+                <th>Image</th>
+                <th>LieuEvent</th>
+                <th>DateEvent</th>
+                <th>Rate</th>
+                <th>DescriptionEvent</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.idevenement }}</td>
+                <td><img src="{{ asset('uploads/' ~evenement.image) }}" style=" width:60px; height:50px; " alt=""/></td>
+                <td>{{ evenement.lieuEvent }}</td>
+                <td>{{ evenement.dateEvent ? evenement.dateEvent|date('Y-m-d') : '' }}</td>
+                <td>{{ evenement.rate }}</td>
+                <td>{{ evenement.descriptionEvent }}</td>
+                <td>
+                    <a href="{{ path('app_evenement_show', {'idevenement': evenement.idevenement}) }}">show</a>
+                    <a href="{{ path('app_evenement_edit', {'idevenement': evenement.idevenement}) }}">edit</a>
+                    <a <a href="{{ path('app_reservation_newB' ,{'idevent':evenement.idEvenement}) }}"style="color:#ed174a;">Réserver</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_evenement_new') }}">Create new</a>
+    <div style="margin-left:1000px;">
+            <a class="btn btn-info" href="{{path('generator_service')}}"> Exporter PDF </a>
+            <a class="btn btn-info" href="{{path('statsE') }}"> statistique </a>
+         </div>
+{% endblock %}
