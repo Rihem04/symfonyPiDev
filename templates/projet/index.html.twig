@@ -1,0 +1,100 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Projet index{% endblock %}
+
+{% block body %}
+
+<script>
+</script>
+
+<div class="form-container" style="border: 1px solid #ccc; padding: 200px;">
+
+  <center>  <h1>Projet index</h1> </center>
+    <div class="row">
+    <div class="col-md-6">
+        <form class="form-inline my-2 my-lg-0">
+        
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search-input">
+           
+           
+            <a href="{{ path('projet_statistics') }}"  style="text-align:right;">View Top Projects</a>
+           
+       
+        </form>
+    </div>
+</div> 
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdProjet</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Competence</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for projet in projets %}
+            <tr>
+                <td>{{ projet.idProjet }}</td>
+                <td>{{ projet.titre }}</td>
+                <td>{{ projet.description }}</td>
+                <td>{{ projet.prix }}</td>
+                <td>{{ projet.competence }}</td>
+                <td>
+                    <a href="{{ path('app_projet_show', {'idProjet': projet.idProjet}) }}">show</a>
+                    <a href="{{ path('app_projet_edit', {'idProjet': projet.idProjet}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+     
+
+  <center>  <a href="{{ path('app_projet_new') }}">Create new</a></center>
+  
+
+        <center></center>
+
+
+
+    
+    
+    <script>
+    
+
+
+    // Get the search input element
+    const searchInput = document.querySelector('#search-input');
+
+    // Get all the rows in the table
+    const rows = document.querySelectorAll('table tbody tr');
+
+    // Add an event listener to the search input that filters the table rows
+    searchInput.addEventListener('keyup', function() {
+        // Get the user's search query
+        const query = this.value.toLowerCase().trim();
+
+        // Loop through all the rows in the table
+        rows.forEach(row => {
+            // Get the text content of each cell in the row
+            const cells = row.querySelectorAll('td');
+            const text = Array.from(cells).map(cell => cell.textContent.trim().toLowerCase()).join(' ');
+
+            // If the row contains the search query, display it, otherwise hide it
+            if (text.includes(query)) {
+                row.style.display = 'table-row';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+{% endblock %}

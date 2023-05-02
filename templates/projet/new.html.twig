@@ -1,0 +1,14 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New Projet{% endblock %}
+
+{% block body %}
+<center>
+<div class="form-container" style="border: 1px solid #ccc; padding: 200px;">
+    <h1>Create new Projet</h1>
+
+    {{ include('projet/_form.html.twig') }}
+
+    <a href="{{ path('app_projet_index') }}">back to list</a>
+    </div></center>
+{% endblock %}

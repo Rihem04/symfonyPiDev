@@ -1,0 +1,183 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Projet{% endblock %}
+
+{% block body %}
+
+<style>
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  left: 90%;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+</style>
+<script>
+ function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+function showOffres() {
+  // Get the value of x
+  var x = "123"; // replace with your variable
+
+  // Send an AJAX request to the server
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/offres?id_projet=" + x, true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // Parse the JSON response
+      var offres = JSON.parse(xhr.responseText);
+
+      // Create the HTML for the popup
+      var popupHTML = "<ul>";
+      for (var i = 0; i < offres.length; i++) {
+        popupHTML += "<li>" + offres[i].id_offre + "</li>";
+      }
+      popupHTML += "</ul>";
+
+      // Display the popup using a modal window
+      // You can use a library like Bootstrap to create a modal window
+      // or create your own using HTML, CSS, and JavaScript
+    } else {
+      console.log("Request failed. Returned status of " + xhr.status);
+    }
+  };
+  xhr.send();
+}
+
+</script>
+
+<div class="form-container" style="border: 1px solid #ccc; padding: 200px;">
+
+   <center> <h1>Projet</h1></center>
+   <a href="{{ path('app_projet_edit', {'idProjet': projet.idProjet}) }}">edit</a>
+   
+    <div class="popup" onclick="myFunction()"> <strong> Nombre d'offres </strong>
+  <span class="popuptext" id="myPopup">{{x}}</span>
+</div>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdProjet</th>
+                <td>{{ projet.idProjet }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ projet.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ projet.description }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ projet.prix }}</td>
+            </tr>
+            <tr>
+                <th>Competence</th>
+                <td>{{ projet.competence }}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="modal fade" id="offresModal" tabindex="-1" role="dialog" aria-labelledby="offresModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="offresModalLabel">Offres</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <center> {% for user  in users  %}
+            {{ user.prenom }}  {{ user.nom }} <br>
+        {% endfor %}</center>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <table style="width:100%">
+    <tr> 
+    <td><div><a href="{{ path('app_projet_index') }}">back to list</a> </div> </td>
+    <td><center> <button onclick="window.print()">PDF</button></center>  </td>
+     <td><div style="text-align:right;" > {{ include('projet/_delete_form.html.twig') }} </div> </td>  
+     
+     </tr>
+    
+    
+    </table>
+
+    
+
+   
+   
+
+   
+    </br>
+   <center> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#offresModal">
+  Show Offres
+</button></center> </br> </br>
+   <center> </center>
+    </div>
+    
+
+{% endblock %}

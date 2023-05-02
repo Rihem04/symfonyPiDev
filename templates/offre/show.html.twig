@@ -1,0 +1,25 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Offre{% endblock %}
+
+{% block body %}
+<div class="form-container" style="border: 1px solid #ccc; padding: 200px;">
+    <h1>Offre</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdOffre</th>
+                <td>{{ offre.idOffre }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_offre_index') }}">back to list</a>
+
+    <a href="{{ path('app_offre_edit', {'idOffre': offre.idOffre}) }}">edit</a>
+
+    {{ include('offre/_delete_form.html.twig') }}</br>
+    <button onclick="window.print()">PDF</button>
+    </div>
+{% endblock %}
