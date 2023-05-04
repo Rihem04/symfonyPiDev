@@ -78,6 +78,14 @@ public function chercheParNom($nom ){
 
 }
 
+public function chercherUserParId($value): User
+{
+    return $this->createQueryBuilder('user')
+        ->andWhere('u.id = :val')
+        ->setParameter('val', $value)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
 
 //    /**
 //     * @return User[] Returns an array of User objects

@@ -1,0 +1,9 @@
+ {% extends 'baseuser.html.twig' %}
+
+
+{% block body %}
+	<br><br><br><br><br><br>
+
+	{{ include('demande/_form.html.twig', {'button_label': 'Update'}) }}
+	{{ include('demande/_delete_form.html.twig') }}
+{% endblock %}

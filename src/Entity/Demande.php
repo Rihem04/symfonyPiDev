@@ -21,7 +21,7 @@ class Demande
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $compétence = null;
+    private ?string $competence = null;
 
     #[ORM\Column]
     private ?float $prix = null;
@@ -29,21 +29,17 @@ class Demande
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date_creation_demande = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_limite = null;
+    private ?\DateTimeInterface $dateLimite = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateCreation = null;
 
     #[ORM\Column]
-    private ?int $id_freelance = null;
+    private ?int $idFreelance = null;
 
     #[ORM\ManyToOne(inversedBy: 'demandes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?user $id_client = null;
-
-    #[ORM\OneToOne(mappedBy: 'id_demande', cascade: ['persist', 'remove'])]
-    private ?ReponseOffre $reponseOffre = null;
+    private ?User $idClient = null;
 
     public function getId(): ?int
     {
@@ -73,15 +69,18 @@ class Demande
 
         return $this;
     }
-
-    public function getCompétence(): ?string
+    public function __toString()
     {
-        return $this->compétence;
+        return $this->getId();
+    }
+    public function getCompetence(): ?string
+    {
+        return $this->competence;
     }
 
-    public function setCompétence(string $compétence): self
+    public function setCompetence(string $competence): self
     {
-        $this->compétence = $compétence;
+        $this->competence = $competence;
 
         return $this;
     }
@@ -110,67 +109,50 @@ class Demande
         return $this;
     }
 
-    public function getDateCreationDemande(): ?\DateTimeInterface
+    public function getDateLimite(): ?\DateTimeInterface
     {
-        return $this->date_creation_demande;
+        return $this->dateLimite;
     }
 
-    public function setDateCreationDemande(\DateTimeInterface $date_creation_demande): self
+    public function setDateLimite(\DateTimeInterface $dateLimite): self
     {
-        $this->date_creation_demande = $date_creation_demande;
+        $this->dateLimite = $dateLimite;
 
         return $this;
     }
 
-    public function getDateLimite(): ?\DateTimeInterface
+    public function getDateCreation(): ?\DateTimeInterface
     {
-        return $this->date_limite;
+        return $this->dateCreation;
     }
 
-    public function setDateLimite(\DateTimeInterface $date_limite): self
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
     {
-        $this->date_limite = $date_limite;
+        $this->dateCreation = $dateCreation;
 
         return $this;
     }
 
     public function getIdFreelance(): ?int
     {
-        return $this->id_freelance;
+        return $this->idFreelance;
     }
 
-    public function setIdFreelance(int $id_freelance): self
+    public function setIdFreelance(int $idFreelance): self
     {
-        $this->id_freelance = $id_freelance;
+        $this->idFreelance = $idFreelance;
 
         return $this;
     }
 
-    public function getIdClient(): ?user
+    public function getIdClient(): ?User
     {
-        return $this->id_client;
+        return $this->idClient;
     }
 
-    public function setIdClient(?user $id_client): self
+    public function setIdClient(?User $idClient): self
     {
-        $this->id_client = $id_client;
-
-        return $this;
-    }
-
-    public function getReponseOffre(): ?ReponseOffre
-    {
-        return $this->reponseOffre;
-    }
-
-    public function setReponseOffre(ReponseOffre $reponseOffre): self
-    {
-        // set the owning side of the relation if necessary
-        if ($reponseOffre->getIdDemande() !== $this) {
-            $reponseOffre->setIdDemande($this);
-        }
-
-        $this->reponseOffre = $reponseOffre;
+        $this->idClient = $idClient;
 
         return $this;
     }

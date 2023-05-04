@@ -5,14 +5,22 @@
 <br>
 <br>
 
+
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+
+    
+
+               <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150px" src="{{ asset('images/users/' ~ app.user.image) }}" >
                 <br>
+
                 <span class="font-weight-bold">{{ app.user.nom ~ " " ~ app.user.prenom }}</span>
-                <span class="text-black-50">{{ app.user.mail }}</span>
+                <span class="text-black-50">{{ app.user.mail }}</span><br>
+                <a href="{{ path('app_demande_show_mes_demandes') }}" class="bouton">voir mes demande</a>
+                <br>
+                <a href="{{ path('app_demande_offre_affaire') }}" class="bouton">voir mes  affaires</a>
             </div>
         </div>
         <div class="col-md-5 border-right">
@@ -25,12 +33,13 @@
                     {{ form_start(profile , {'method': 'POST'}) }}
                     {{ form(profile) }}
                     {{ form_end(profile) }}
-                </div>
-                
-                <div class="mt-5 text-center"> 
+                    <div class="mt-5 text-center"> 
                     <button class="btn btn-primary profile-button" type="submit" name="profil[submit]">Mettre à jour</button>
 
                 </div>
+                </div>
+                
+                
             </div>
         </div>
         <div class="col-md-4">
@@ -42,12 +51,16 @@
                     {{ form_row(cv.competances) }}
                     {{ form_row(cv.experience) }}
                     {{ form_row(cv.education) }}
-                 {{ form_end(cv) }}
-                 
-                <div class="mt-5 text-center"> 
+                    <div class="mt-5 text-center"> 
                   <button class="btn btn-primary profile-button" type="submit">Ajouter</button>
                 </div>
+                    
+                 {{ form_end(cv) }}
+                 
+                
+                
             </div>
+            
         </div>
         
     </div>

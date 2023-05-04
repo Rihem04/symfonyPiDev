@@ -7,39 +7,37 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Stof\DoctrineExtensionsBundle\Mapping\Annotation as StofORM;
-use Stof\DoctrineExtensionsBundle\Entity\Rating;
+
 
 
 
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity('mail'  , message:"Cette adresse email est déjà utilisée")]
+#[UniqueEntity('mail', message: "Cette adresse email est déjà utilisée")]
 #[ORM\Table(name: '`user`')]
 
-class User implements UserInterface 
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-   
+
 
     #[ORM\Column(type: "string", length: 255, nullable: false)]
     #[Assert\NotBlank(message: "Le champ nom ne peut pas être vide")]
-    #[Assert\Type(type:"alpha" , message: "Le champ nom doit etre une chaine de caractere")]
-    private $nom ;
-    
+    #[Assert\Type(type: "alpha", message: "Le champ nom doit etre une chaine de caractere")]
+    private $nom;
+
 
     #[ORM\Column(type: "string", length: 255, nullable: false)]
     #[Assert\NotBlank(message: "Le champ nom ne peut pas être vide")]
-    #[Assert\Type(type:"alpha" , message: "Le champ nom doit etre une chaine de caractere")]
-    private  $prenom ;
+    #[Assert\Type(type: "alpha", message: "Le champ nom doit etre une chaine de caractere")]
+    private  $prenom;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le champ email ne peut pas être vide")]
@@ -49,9 +47,9 @@ class User implements UserInterface
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le champ mot de passe ne peut pas être vide")]
     #[Assert\Length(
-        min: 8, 
+        min: 8,
         minMessage: 'Your password must be at least 8 characters long',
-        
+
     )]
     private $password;
 
@@ -62,24 +60,24 @@ class User implements UserInterface
         message: "Le numéro de téléphone doit contenir 7 chiffres"
     )]
     private $numero_telephone;
-    
+
 
     #[ORM\Column(length: 255, nullable: true)]
-     private ?string $reset_token = null;
+    private ?string $reset_token = null;
 
 
-     
 
-    #[ORM\Column(type: 'boolean', options:['default' => false])]
+
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private $isBlocked = false;
 
-   
-    
+
+
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le champ rôle ne peut pas être vide")]
-    private $role= "simple user";
-   
+    private $role = "simple user";
+
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le champ adresse ne peut pas être vide")]
@@ -91,7 +89,7 @@ class User implements UserInterface
     #[ORM\OneToOne(mappedBy: 'id_user', cascade: ['persist', 'remove'])]
     private ?Cv $cv = null;
 
-    
+
 
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Evenement::class)]
     private Collection $evenements;
@@ -102,8 +100,6 @@ class User implements UserInterface
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Projet::class)]
     private Collection $projets;
 
-    #[ORM\OneToMany(mappedBy: 'id_client', targetEntity: Demande::class)]
-    private Collection $demandes;
 
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Cours::class)]
     private Collection $cours;
@@ -111,15 +107,17 @@ class User implements UserInterface
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Offre::class)]
     private Collection $offres;
 
+    #[ORM\OneToMany(mappedBy: 'idClient', targetEntity: Demande::class)]
+    private Collection $demandes;
+
     public function __construct()
     {
         $this->evenements = new ArrayCollection();
         $this->reservations = new ArrayCollection();
         $this->projets = new ArrayCollection();
-        $this->demandes = new ArrayCollection();
         $this->cours = new ArrayCollection();
         $this->offres = new ArrayCollection();
-        
+        $this->demandes = new ArrayCollection();
     }
 
 
@@ -134,7 +132,7 @@ class User implements UserInterface
 
         return $this;
     }
-    
+
 
     public function getResetToken(): ?string
     {
@@ -148,7 +146,7 @@ class User implements UserInterface
         return $this;
     }
 
-  
+
 
     public function getId(): ?int
     {
@@ -362,35 +360,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Demande>
-     */
-    public function getDemandes(): Collection
-    {
-        return $this->demandes;
-    }
-
-    public function addDemande(Demande $demande): self
-    {
-        if (!$this->demandes->contains($demande)) {
-            $this->demandes->add($demande);
-            $demande->setIdClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDemande(Demande $demande): self
-    {
-        if ($this->demandes->removeElement($demande)) {
-            // set the owning side to null (unless already changed)
-            if ($demande->getIdClient() === $this) {
-                $demande->setIdClient(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Cours>
@@ -452,13 +421,11 @@ class User implements UserInterface
         return $this;
     }
 
-   public function eraseCredentials()
-   {
-    
-   }
+    public function eraseCredentials()
+    {
+    }
     public function getSalt()
     {
-        
     }
 
     public function getRoles()
@@ -471,8 +438,38 @@ class User implements UserInterface
         return (string) $this->mail;
     }
 
-    public function getUserIdentifier (){return (string) $this->mail;}
+    public function getUserIdentifier()
+    {
+        return (string) $this->mail;
+    }
 
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
 
-    
+    public function addDemande(Demande $demande): self
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes->add($demande);
+            $demande->setIdClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demande $demande): self
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getIdClient() === $this) {
+                $demande->setIdClient(null);
+            }
+        }
+
+        return $this;
+    }
 }

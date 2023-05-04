@@ -16,15 +16,13 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 #[Route('/user')]
 class UserController extends AbstractController
 {
-    
-    
+
+
 
     #[Route('/', name: 'app_front')]
     public function index(): Response
     {
-        return $this->render('user/index.html.twig', [
-            
-        ]);
+        return $this->render('user/index.html.twig', []);
     }
 
     #[Route('/listUsers', name: 'app_user_freelancers', methods: ['GET'])]
@@ -35,44 +33,44 @@ class UserController extends AbstractController
         ]);
     }
 
-    
+
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserRepository $userRepository ,UserPasswordEncoderInterface $passwordEncoder ): Response
+    public function new(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
 
-            
-            $mdp=$user->getPassword();
-            $password = $passwordEncoder->encodePassword($user,$mdp);
+
+            $mdp = $user->getPassword();
+            $password = $passwordEncoder->encodePassword($user, $mdp);
             $user->setPassword($password);
-            
 
 
 
-             // Traitement de l'image
-    $imageFile = $form['image']->getData();
-    if ($imageFile) {
-        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $newFilename = $originalFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
 
-        try {
-            $imageFile->move(
-                $this->getParameter('user_images_directory'),
-                $newFilename
-            );
-        } catch (FileException $e) {
-            // Gérer l'erreur si la sauvegarde de l'image échoue
-        }
+            // Traitement de l'image
+            $imageFile = $form['image']->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
 
-        $user->setImage($newFilename);
-    }
+                try {
+                    $imageFile->move(
+                        $this->getParameter('user_images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Gérer l'erreur si la sauvegarde de l'image échoue
+                }
 
- 
+                $user->setImage($newFilename);
+            }
+
+
             $userRepository->save($user, true);
 
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
@@ -113,7 +111,7 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user, true);
         }
 
@@ -121,38 +119,30 @@ class UserController extends AbstractController
     }
 
     /**
- * @Route("/rechercher", name="rechercher_users", methods={"GET"})
- */
-public function chercher(Request $request, UserRepository $userRepository)
-{
-    $nom = $request->query->get('nom');
-    $prenom = $request->query->get('prenom');
+     * @Route("/rechercher", name="rechercher_users", methods={"GET"})
+     */
+    public function chercher(Request $request, UserRepository $userRepository)
+    {
+        $nom = $request->query->get('nom');
+        $prenom = $request->query->get('prenom');
 
-    // Effectuer la recherche dans la base de données
-    $users = $userRepository->chercherParNomEtPrenom($nom, $prenom);
+        // Effectuer la recherche dans la base de données
+        $users = $userRepository->chercherParNomEtPrenom($nom, $prenom);
 
-    // Convertir les résultats en tableau associatif
-    $resultats = [];
-    foreach ($users as $user) {
-        $resultats[] = [
-            'id' => $user->getId(),
-            'nom' => $user->getNom(),
-            'prenom' => $user->getPrenom(),
-            'mail'=>$user->getMail(),
-            'addresse'=>$user->getAddresse(),
+        // Convertir les résultats en tableau associatif
+        $resultats = [];
+        foreach ($users as $user) {
+            $resultats[] = [
+                'id' => $user->getId(),
+                'nom' => $user->getNom(),
+                'prenom' => $user->getPrenom(),
+                'mail' => $user->getMail(),
+                'addresse' => $user->getAddresse(),
 
-        ];
+            ];
+        }
+
+        // Renvoyer les résultats au format JSON
+        return $this->json($resultats);
     }
-
-    // Renvoyer les résultats au format JSON
-    return $this->json($resultats);
-}
-
-
-  
-
-
-
-   
-
 }

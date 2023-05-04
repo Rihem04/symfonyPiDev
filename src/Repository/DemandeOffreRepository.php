@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Demande;
+use App\Entity\DemandeOffre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Demande>
+ * @extends ServiceEntityRepository<DemandeOffre>
  *
- * @method Demande|null find($id, $lockMode = null, $lockVersion = null)
- * @method Demande|null findOneBy(array $criteria, array $orderBy = null)
- * @method Demande[]    findAll()
- * @method Demande[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method DemandeOffre|null find($id, $lockMode = null, $lockVersion = null)
+ * @method DemandeOffre|null findOneBy(array $criteria, array $orderBy = null)
+ * @method DemandeOffre[]    findAll()
+ * @method DemandeOffre[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DemandeRepository extends ServiceEntityRepository
+class DemandeOffreRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Demande::class);
+        parent::__construct($registry, DemandeOffre::class);
     }
 
-    public function save(Demande $entity, bool $flush = false): void
+    public function save(DemandeOffre $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class DemandeRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Demande $entity, bool $flush = false): void
+    public function remove(DemandeOffre $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -38,37 +38,28 @@ class DemandeRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-    public function findmesdemandes($value): array
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.idClient = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.dateLimite', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
-    public function findmesoffredetravail($value): array
+    public function findmesoffrede($value): array
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.idFreelance = :val')
-            ->orderBy('d.dateCreation', 'DESC')
             ->setParameter('val', $value)
             ->getQuery()
             ->getResult();
     }
 
-    public function findAllSortedByDate()
-{
-    $qb = $this->createQueryBuilder('d')
-        ->orderBy('d.dateCreation', 'DESC');
+    public function findAccepted(): array
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.reponseDemande = :val')
+            ->setParameter('val', 'Accepté')
+            ->getQuery()
+            ->getResult();
+    }
 
-    return $qb->getQuery()->getResult();
-}
 
 
     //    /**
-    //     * @return Demande[] Returns an array of Demande objects
+    //     * @return DemandeOffre[] Returns an array of DemandeOffre objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -82,7 +73,7 @@ class DemandeRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Demande
+    //    public function findOneBySomeField($value): ?DemandeOffre
     //    {
     //        return $this->createQueryBuilder('d')
     //            ->andWhere('d.exampleField = :val')

@@ -1,0 +1,46 @@
+{% extends 'baseuser.html.twig' %}
+
+
+
+{% block body %}
+
+<br><br>
+ 
+    <section id="services" class="services">
+
+      <div class="container" data-aos="fade-up">
+
+        <header class="section-header">
+          
+          <p>mes offres de travaille</p>
+        </header>
+    {% for demande_client in demande_clients %}
+        <div class="row gy-4">
+        
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="service-box blue">
+              <i class="ri-discuss-line icon"></i>
+              <h3>{{ demande_client.titre }}</h3>
+              <p>{{ demande_client.description }}</p>
+              <a href="{{path('app_demande_offre_show', {'id': demande_client.id} )}}" class="read-more"><span>voir les détails</span>
+               <a href="{{path('app_offre_demande_repondre', {'id': demande_client.id} )}}" class="read-more"><span>repondre</span> <i class="bi bi-arrow-right"></i></a>
+                         
+            </div>
+          </div>
+
+         
+
+        </div>
+        {% endfor %}
+
+      </div>
+      <br><br>
+      <a href="{{path('app_affaire_accepté')}}">mes affaires acceptés</a>
+
+    </section><!-- End Services Section -->
+
+
+
+
+{% endblock %}

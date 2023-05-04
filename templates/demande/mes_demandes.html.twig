@@ -1,0 +1,57 @@
+{% extends 'baseuser.html.twig' %}
+
+
+
+{% block body %}
+	
+<br><br><br><br><br><br>
+	
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				
+				<th>Titre</th>
+				<th>Description</th>
+				<th>Competence</th>
+				<th>Prix</th>
+				<th>Etat</th>
+				<th>DateLimite</th>
+				<th>DateCreation</th>
+				<th>IdFreelance</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for demande_client in demande_clients %}
+				<tr>
+					<td>{{ demande_client.id }}</td>
+					
+					<td>{{ demande_client.titre }}</td>
+					<td>{{ demande_client.description }}</td>
+					<td>{{ demande_client.competence }}</td>
+					<td>{{ demande_client.prix }}</td>
+					{% if demande_client.etat == "accepté" %}
+					<td class="text-success">{{ demande_client.etat }}</td>
+					{% else %}
+					<td class="text-danger">{{ demande_client.etat }}</td>
+					{% endif %}
+					<td>{{ demande_client.dateLimite ? demande_client.dateLimite|date('Y-m-d') : '' }}</td>
+					<td>{{ demande_client.dateCreation ? demande_client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ demande_client.idFreelance }}</td>
+					<td>
+						
+						<a href="{{ path('app_demande_client_edit', {'id': demande_client.id}) }}">edit</a>
+
+
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="10">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+{% endblock %}

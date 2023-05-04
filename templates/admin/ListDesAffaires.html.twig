@@ -1,0 +1,57 @@
+{% extends 'admin/index.html.twig' %}
+
+
+
+{% block admin %}
+	
+
+
+	<br><br><br><br><br>
+	
+	
+	<table class="table">
+		<thead>
+			<tr>
+				
+				<th>Id_client</th>
+				<th>Titre</th>
+				<th>Description</th>
+				<th>Competence</th>
+				<th>Prix</th>
+				<th>Etat</th>
+				<th>DateLimite</th>
+				<th>DateCreation</th>
+				
+				
+			</tr>
+		</thead>
+		<tbody>
+			{% for demande_client in demande_clients %}
+			{#Si les demmande non etudier #}
+
+				
+					
+					<tr>
+						
+						<td>{{ demande_client.idClient }}</td>
+						<td>{{ demande_client.titre }}</td>
+						<td>{{ demande_client.description }}</td>
+						<td>{{ demande_client.competence }}</td>
+						<td>{{ demande_client.prix }}</td>
+						<td>{{ demande_client.etat }}</td>
+						<td>{{ demande_client.dateLimite ? demande_client.dateLimite|date('Y-m-d') : '' }}</td>
+						<td>{{ demande_client.dateCreation ? demande_client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+						
+						
+					</tr>
+				
+			{% else %}
+				<tr>
+					<td colspan="10">no data found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	
+{% endblock %}

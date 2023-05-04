@@ -1,0 +1,55 @@
+{# {% extends 'base.html.twig' %}#}
+
+{% block title %}DemandeClient
+{% endblock %}
+
+{% block body %}
+	<h1>DemandeClient</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ demande_client.id }}</td>
+			</tr>
+			<tr>
+				<th>Titre</th>
+				<td>{{ demande_client.titre }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ demande_client.description }}</td>
+			</tr>
+			<tr>
+				<th>Competence</th>
+				<td>{{ demande_client.competence }}</td>
+			</tr>
+			<tr>
+				<th>Prix</th>
+				<td>{{ demande_client.prix }}</td>
+			</tr>
+			<tr>
+				<th>Etat</th>
+				<td>{{ demande_client.etat }}</td>
+			</tr>
+			<tr>
+				<th>DateLimite</th>
+				<td>{{ demande_client.dateLimite ? demande_client.dateLimite|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th>DateCreation</th>
+				<td>{{ demande_client.dateCreation ? demande_client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>IdFreelance</th>
+				<td>{{ demande_client.idFreelance }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_demande_client_index') }}">back to list</a>
+
+	<a href="{{ path('app_demande_client_edit', {'id': demande_client.id}) }}">edit</a>
+
+	{{ include('demande/_delete_form.html.twig') }}
+{% endblock %}

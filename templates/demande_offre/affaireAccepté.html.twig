@@ -1,0 +1,48 @@
+{% extends 'baseuser.html.twig' %}
+
+
+
+{% block body %}
+	
+
+
+	<br><br><br><br><br>
+	
+	
+	<table class="table">
+		<thead>
+			<tr>
+				
+				<th>reponseDemande</th>
+				<th>idDemande</th>
+				<th>idFreelance</th>
+				
+				
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for a in aff %}
+			{#Si les demmande non etudier #}
+
+				
+					
+					<tr>
+						
+						<td>{{ a.reponseDemande }}</td>
+						<td>{{ a.idDemande }}</td>
+						<td>{{ a.idFreelance }}</td>
+						
+						
+						<td>
+							<a href="#">modifier</a>
+
+
+						</td>
+					</tr>
+			
+		</tbody>
+	</table>
+
+	
+{% endblock %}

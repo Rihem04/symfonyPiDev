@@ -46,6 +46,7 @@
                         <p>{{ user.addresse }}</p>
                         <p>{{ user.numeroTelephone }}</p>
                         <li><a class="getstarted scrollto" href="{{ path('app_user_show', {'id': user.id}) }}">voir profil</a></li>
+                        <li><a class="getstarted scrollto" href="{{ path('app_user_addDemande', {'id': user.id}) }}">demander un service</a></li>
                     </div>
                 </div>
             </div>

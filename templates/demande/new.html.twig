@@ -1,0 +1,30 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}ajouter une demande{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div>
+                <br>
+                <br>
+                <br>
+				<br>
+                <br>
+                <br>
+            </div>
+            <div>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary">{{ button_label|default('ajouter demande') }}</button>
+                
+
+            {{ form_end(form) }}
+            </div>
+			<br>
+			<br>
+        </div>
+    </div>
+</div>
+{% endblock %}

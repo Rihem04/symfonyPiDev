@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\DemandeRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -161,6 +162,35 @@ public function search(Request $request , NormalizerInterface $Normalizer , User
     $retour=json_encode(($jsonContent));
 
     return new Response($retour);
+}
+
+#[Route('/showAdminDemande', name: 'admin_show_all_demandes', methods: ['GET'])]
+public function showalldemandes(DemandeRepository $demandeClientRepository): Response
+{
+    return $this->render('admin/listDemandes.html.twig', [
+        'demande_clients' => $demandeClientRepository->findAll(),
+    ]);
+}
+
+#[Route('/affaire', name: 'admin_demande_offre_affaire', methods: ['GET'])]
+public function mesaffaires(DemandeRepository $demandeClientRepository): Response
+{
+
+    return $this->render('admin/ListDesAffaires.html.twig', [
+        'demande_clients' => $demandeClientRepository->findmesoffredetravail($this->getUser()->getId()),
+    ]);
+}
+
+/**
+ * @Route("/trierParDate", name="sort_demande_by_date")
+ */
+public function triParDate(DemandeRepository $dr)
+{
+    $demandes = $dr->findAllSortedByDate();
+
+    return $this->render('admin/listDemandes.html.twig', [
+        'demande_clients' => $demandes,
+    ]);
 }
  
 
