@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Offre;
 use App\Entity\User;
+use App\Entity\Projet;
 use App\Form\OffreType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -90,9 +91,29 @@ public function selectUser(Request $request): Response
 
     #[Route('/{idOffre}', name: 'app_offreuser_show', methods: ['GET'])]
     public function show(Offre $offre): Response
-    {
+    {   $x = $offre->getIdUser();
+        $y = $offre->getIdProjet();
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+    $prenomoffre = $queryBuilder
+    ->select('u2.prenom')
+    ->from(User::class, 'u2')
+    ->where('u2.idUser = :userId')
+    ->setParameter('userId', $x)
+    ->getQuery()
+    ->getSingleScalarResult();
+    $queryBuilder = $this->entityManager->createQueryBuilder();
+    $title = $queryBuilder
+    ->select('p.titre')
+    ->from(Projet::class, 'p')
+    ->where('p.idProjet = :idProjet')
+    ->setParameter('idProjet', $y)
+    ->getQuery()
+    ->getSingleScalarResult();
+
         return $this->render('offreuser/show.html.twig', [
             'offre' => $offre,
+            'offreur' => $prenomoffre,
+            'title' => $title,
         ]);
     }
 

@@ -53,7 +53,7 @@ class ProjetType extends AbstractType
                 ])
             ]
         ])
-            ->add('idUser')
+            ->add('idUser', null, ['label' => 'utilisateur'])
         ;
     }
 

@@ -4,10 +4,12 @@
 
 {% block body %}
 <div class="form-container" style="border: 1px solid #ccc; padding: 200px;">
+<center>
     <h1>Create new Offre</h1>
 
     {{ include('offre/_form.html.twig') }}
 
-    <a href="{{ path('app_offre_index') }}">back to list</a>
+    <a href="{{ path('app_offreuser_index') }}">back to list</a>
+    <center>
     </div>
 {% endblock %}

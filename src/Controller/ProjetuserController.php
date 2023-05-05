@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Projet;
+use App\Entity\User;
 use App\Form\ProjetType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/projetuser')]
 class ProjetuserController extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+
+public function __construct(EntityManagerInterface $entityManager)
+{
+    $this->entityManager = $entityManager;
+}
     #[Route('/', name: 'app_projetuser_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -20,6 +27,8 @@ class ProjetuserController extends AbstractController
             ->getRepository(Projet::class)
             ->findAll();
 
+            
+            
         return $this->render('projetuser/index.html.twig', [
             'projets' => $projets,
         ]);
@@ -48,8 +57,27 @@ class ProjetuserController extends AbstractController
     #[Route('/{idProjet}', name: 'app_projetuser_show', methods: ['GET'])]
     public function show(Projet $projet): Response
     {
+        $x = $projet->getIduser();
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+            $nom = $queryBuilder
+    ->select('u1.nom')
+    ->from(User::class, 'u1')
+    ->where('u1.idUser = :userId')
+    ->setParameter('userId', $x)
+    ->getQuery()
+    ->getSingleScalarResult();
+    $queryBuilder = $this->entityManager->createQueryBuilder();
+    $prenom = $queryBuilder
+    ->select('u2.prenom')
+    ->from(User::class, 'u2')
+    ->where('u2.idUser = :userId')
+    ->setParameter('userId', $x)
+    ->getQuery()
+    ->getSingleScalarResult();
         return $this->render('projetuser/show.html.twig', [
             'projet' => $projet,
+            'nom' => $nom,
+            'prenom' => $prenom,
         ]);
     }
 

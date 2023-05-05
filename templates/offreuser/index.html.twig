@@ -5,22 +5,24 @@
 {% block body %}
 
 <div class="form-container" style="border: 1px solid #ccc; padding: 200px;">
+<center>
     <h1>Offre index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>IdOffre</th>
-                <th>actions</th>
+                
+
+                <th><center>voir les offres</center></th>
             </tr>
         </thead>
         <tbody>
         {% for offre in offres %}
-            <tr>
-                <td>{{ offre.idOffre }}</td>
+            
+
                 <td>
-                    <a href="{{ path('app_offre_show', {'idOffre': offre.idOffre}) }}">show</a>
-                    <a href="{{ path('app_offre_edit', {'idOffre': offre.idOffre}) }}">edit</a>
+                    <a href="{{ path('app_offreuser_show', {'idOffre': offre.idOffre}) }}"><center>show</center></a>
+                    
                 </td>
             </tr>
         {% else %}
@@ -31,6 +33,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_offre_new') }}">Create new</a>
+    <a href="{{ path('app_offreuser_new') }}">Create new</a>
+    </center>
     </div>
 {% endblock %}
